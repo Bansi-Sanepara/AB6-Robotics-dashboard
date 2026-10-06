@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
-const A = '/src/assets/';
-
+const A = '/assets/';
 // status: done | current | open | locked
 const courses = [
   { id: 'control', name: 'Control Systems', icon: '⚙', color: '#f29b38', progress: 15, total: 15, status: 'done', xp: 180, description: 'Master feedback, stability and robot control loops.' },

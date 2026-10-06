@@ -349,7 +349,7 @@ a {
   gap: 20px;
   padding: 28px 36px;
   color: #fff;
-  background: linear-gradient(90deg, rgba(10, 58, 62, .95) 0%, rgba(10, 58, 62, .7) 55%, rgba(10, 58, 62, .1) 100%), url('./assets/hero-bg.jpg') center/cover, linear-gradient(120deg, #0f4a52, #3f8f77);
+  background: linear-gradient(90deg, rgba(10, 58, 62, .95) 0%, rgba(10, 58, 62, .7) 55%, rgba(10, 58, 62, .1) 100%), url('/assets/hero-bg.jpg') center/cover, linear-gradient(120deg, #0f4a52, #3f8f77);
 }
 
 .hero small {
@@ -513,7 +513,7 @@ a {
   height: 560px;
   border-radius: 16px;
   overflow: hidden;
-  background: url('./assets/world-background.jpg') center/cover no-repeat, linear-gradient(180deg, #a9dcec, #7cc3dc);
+  background: url('/assets/world-background.jpg') center/cover no-repeat, linear-gradient(180deg, #a9dcec, #7cc3dc);
 }
 
 .island {
@@ -840,7 +840,7 @@ a {
   gap: 4px;
   padding: 26px 16px 16px;
   color: #fff;
-  background: linear-gradient(180deg, rgba(20, 60, 70, .2), rgba(20, 60, 70, .7)), url('./assets/profile-bg.jpg') center/cover, linear-gradient(160deg, #7ec8d9, #4d9a86);
+  background: linear-gradient(180deg, rgba(20, 60, 70, .2), rgba(20, 60, 70, .7)), url('/assets/profile-bg.jpg') center/cover, linear-gradient(160deg, #7ec8d9, #4d9a86);
 }
 
 .avatar {
