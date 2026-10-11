@@ -16,11 +16,11 @@ import { confetti } from './components/fx.js';
 const A = '/assets/';
 // status: done | current | locked   (x / y / w are % positions on the map stage)
 const courses = [
-  { id: 'control', name: 'Control Systems', icon: 'gear', color: '#22c55e', progress: 15, total: 15, status: 'done', star: true, xp: 180, x: 18.5, y: 29, w: 26, description: 'Master feedback, stability and robot control loops.' },
-  { id: 'kinematics', name: 'Kinematics', icon: 'zap', color: '#2f9bff', progress: 14, total: 15, status: 'current', star: true, xp: 320, x: 50, y: 33, w: 30, description: 'Understand robot joints, links, motion and pose.' },
-  { id: 'omx', name: 'OMX Kinematics', icon: 'target', color: '#ff4d4d', progress: 6, total: 11, status: 'locked', xp: 240, x: 83, y: 29, w: 24, description: 'Apply kinematics to the OMX robotic platform.' },
-  { id: 'sensing', name: 'Sensing & Perception', icon: 'eye', color: '#8a52ff', progress: 8, total: 14, status: 'locked', xp: 210, x: 26, y: 72, w: 27, description: 'Teach robots to see, sense and understand the world.' },
-  { id: 'sim', name: 'Sim-to-Real Kinematics', icon: 'hex', color: '#17c8a5', progress: 6, total: 13, status: 'locked', xp: 190, x: 72, y: 74, w: 28, description: 'Bridge simulation skills with real robotic systems.' }
+  { id: 'control', name: 'Control Systems', icon: 'gear', color: '#22c55e', progress: 15, total: 15, status: 'done', star: true, xp: 180, x: 18.5, y: 29, w: 32, description: 'Master feedback, stability and robot control loops.' },
+  { id: 'kinematics', name: 'Kinematics', icon: 'zap', color: '#2f9bff', progress: 14, total: 15, status: 'current', star: true, xp: 320, x: 50, y: 33, w: 37, description: 'Understand robot joints, links, motion and pose.' },
+  { id: 'omx', name: 'OMX Kinematics', icon: 'target', color: '#ff4d4d', progress: 6, total: 11, status: 'locked', xp: 240, x: 83, y: 29, w: 30, description: 'Apply kinematics to the OMX robotic platform.' },
+  { id: 'sensing', name: 'Sensing & Perception', icon: 'eye', color: '#8a52ff', progress: 8, total: 14, status: 'locked', xp: 210, x: 26, y: 72, w: 33, description: 'Teach robots to see, sense and understand the world.' },
+  { id: 'sim', name: 'Sim-to-Real Kinematics', icon: 'hex', color: '#17c8a5', progress: 6, total: 13, status: 'locked', xp: 190, x: 72, y: 74, w: 24, description: 'Bridge simulation skills with real robotic systems.' }
 ];
 
 const nav = [['home', 'Home'], ['book', 'My Learning'], ['trophy', 'Challenges'], ['bars', 'Leaderboard'], ['shield', 'Achievements'], ['users', 'Community'], ['clip', 'Resources']];
@@ -282,7 +282,7 @@ function App() {
             <section className="hero glass reveal" style={{ '--d': '.2s' }} ref={heroRef} onMouseMove={heroMove}>
               <div className="hero-fx"><i className="scan" />{Array.from({ length: 14 }, (_, i) => <b key={i} style={{ '--i': i }} />)}</div>
               <div className="hero-copy">
-                <small className="hello">Hello, Bansi! <span className="wave">👋</span></small>
+                <small className="hello">Hello, Bansi! <span className="wave"></span></small>
                 <h1>Build. Learn. Become.</h1>
                 <p>Your robotics journey starts here. Explore courses, complete missions and unlock new skills!</p>
               </div>
