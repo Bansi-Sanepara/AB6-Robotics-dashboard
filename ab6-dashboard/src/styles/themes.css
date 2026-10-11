@@ -1,0 +1,24 @@
+/* Light theme — cards stay glassy, hero + splash keep their deep-space look */
+:root[data-theme='light'] {
+  --bg: #e9f1ff; --bg2: #f4f8ff;
+  --panel: rgba(255, 255, 255, .78); --panel-solid: #fff; --panel-2: rgba(230, 240, 255, .8);
+  --line: rgba(47, 100, 220, .16); --line-strong: rgba(47, 100, 220, .38);
+  --text: #0c1a3d; --text-2: #28406f; --muted: #5c7099;
+  --track: rgba(20, 50, 120, .12);
+  --shadow: 0 14px 40px rgba(40, 80, 170, .14);
+  color-scheme: light;
+}
+:root[data-theme='light'] .aurora i { opacity: .28; }
+:root[data-theme='light'] .hero, :root[data-theme='light'] .hero * { --text: #eef4ff; --text-2: #c3d2f0; --muted: #9fb4dd; }
+:root[data-theme='light'] .hero { background: linear-gradient(120deg, #07163a, #0b2a6e 60%, #0a3f8a); }
+:root[data-theme='light'] .island img { filter: saturate(1.05); }
+:root[data-theme='light'] .chip { background: rgba(255, 255, 255, .92); }
+:root[data-theme='light'] .map-stage { background: radial-gradient(ellipse at 50% 40%, rgba(120, 170, 255, .22), transparent 70%); }
+:root[data-theme='light'] .paths path { stroke: rgba(47, 100, 220, .55); }
+:root[data-theme='light'] .mascot p { color: #28406f; }
+:root[data-theme='light'] .sidebar nav button.selected { color: #fff; }
+:root[data-theme='light'] .chip-text strong { color: #0c1a3d; }
+:root[data-theme='light'] .chip-text small { color: #5c7099; }
+:root[data-theme='light'] .brand b span { background: linear-gradient(90deg, #1b56d9, #0aa5c9); -webkit-background-clip: text; background-clip: text; }
+:root[data-theme='light'] .current-pill { color: #fff; }
+:root[data-theme='light'] .chip { border-width: 1.5px; }

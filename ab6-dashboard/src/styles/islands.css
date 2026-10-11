@@ -1,0 +1,38 @@
+.map-stage { position: relative; aspect-ratio: 905 / 540; margin: 4px -22px 0; }
+.map-nebula { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(40, 110, 255, .22), transparent 62%), radial-gradient(ellipse at 85% 30%, rgba(255, 120, 40, .13), transparent 40%), radial-gradient(ellipse at 22% 78%, rgba(150, 70, 255, .16), transparent 42%); pointer-events: none; animation: breathe 7s ease-in-out infinite; }
+.paths { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.paths path { fill: none; stroke: rgba(110, 190, 255, .55); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 7 9; animation: dash 1.4s linear infinite; }
+.paths path.solid { stroke: #35e0ff; stroke-dasharray: none; animation: none; filter: drop-shadow(0 0 6px #35e0ff); }
+.trav { filter: drop-shadow(0 0 6px #7df0ff); }
+
+.island { position: absolute; left: var(--x); top: var(--y); width: var(--w); transform: translate(-50%, -50%); transition: opacity .5s, filter .5s; z-index: 2; }
+.island.is-current { z-index: 4; } .island:hover { z-index: 6; }
+.island.dim { opacity: .18; filter: grayscale(.8) blur(1px); pointer-events: none; }
+.island-pop { opacity: 0; transform: scale(.3) translateY(50px); }
+.ready .island-pop { animation: islandIn 1s var(--ease) calc(.7s + var(--i) * .14s) both; }
+.island-float { position: relative; animation: float calc(5.5s + var(--i) * .7s) ease-in-out infinite calc(var(--i) * -1.2s); }
+.island-tilt { position: relative; transform: perspective(700px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .25s ease-out; transform-style: preserve-3d; }
+.island img { display: block; width: 100%; user-select: none; filter: drop-shadow(0 18px 22px rgba(0, 0, 0, .5)) saturate(1.1) brightness(.96); transition: filter .4s, transform .5s var(--ease); }
+.island:hover img { filter: drop-shadow(0 22px 28px rgba(0, 0, 0, .55)) drop-shadow(0 0 26px color-mix(in srgb, var(--accent) 70%, transparent)) saturate(1.2) brightness(1.06); transform: scale(1.05); }
+.island.is-locked img { filter: drop-shadow(0 18px 22px rgba(0, 0, 0, .5)) saturate(.78) brightness(.82); }
+.island-glow { position: absolute; left: 4%; right: 4%; bottom: 0; height: 36%; border-radius: 50%; background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 55%, transparent), transparent 70%); filter: blur(14px); animation: breathe 4s ease-in-out infinite; }
+.ring { position: absolute; left: -4%; right: -4%; bottom: 4%; height: 44%; border-radius: 50%; border: 2px solid rgba(53, 180, 255, .75); box-shadow: 0 0 24px rgba(53, 160, 255, .8), inset 0 0 24px rgba(53, 160, 255, .5); animation: ringPulse 3.2s ease-out infinite; pointer-events: none; }
+.ring.r2 { animation-delay: 1.6s; }
+.chip { position: absolute; left: 50%; top: 66%; transform: translateX(-50%); z-index: 5; display: flex; align-items: center; gap: 11px; padding: 7px 18px 7px 8px; border-radius: 99px; white-space: nowrap; background: rgba(6, 16, 42, .9); border: 1.5px solid color-mix(in srgb, var(--accent) 70%, #fff 0%); box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 45%, transparent), inset 0 0 14px color-mix(in srgb, var(--accent) 18%, transparent); backdrop-filter: blur(8px); text-align: left; transition: .4s var(--ease); overflow: visible; }
+.chip:hover { transform: translateX(-50%) translateY(-5px) scale(1.07); box-shadow: 0 0 34px var(--accent); }
+.chip-icon { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; flex: none; color: #fff; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 80%, #fff), color-mix(in srgb, var(--accent) 60%, #000)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
+.chip-text strong { display: block; font: 600 14.5px var(--font); color: #f2f7ff; } .chip-text small { display: flex; align-items: center; gap: 5px; color: #b7c8ea; font-size: 13px; margin-top: 1px; } .chip .star { color: var(--gold); }
+.is-current .chip { padding-left: 8px; top: 62%; }
+.current-pill { position: absolute; left: 50%; top: calc(62% + 52px); transform: translateX(-50%); z-index: 6; padding: 5px 24px; border-radius: 99px; background: linear-gradient(135deg, #2f9bff, #1560ff); font: 600 13.5px var(--font); color: #fff; box-shadow: 0 0 20px rgba(47, 140, 255, .9); animation: pillBob 2s ease-in-out infinite; }
+.state { position: absolute; z-index: 3; display: grid; place-items: center; border-radius: 50%; color: #fff; }
+.done-state { right: 8%; top: 54%; width: 38px; height: 38px; background: radial-gradient(circle at 35% 30%, #4ade80, #16a34a); box-shadow: 0 0 22px rgba(34, 197, 94, .9); animation: pop .6s var(--ease) 2s both, checkGlow 2.5s ease-in-out infinite 2.6s; }
+.lock-state { right: 22%; top: 66%; width: 28px; height: 28px; background: radial-gradient(circle at 35% 30%, #ffb54a, #e87a10); box-shadow: 0 0 14px rgba(255, 150, 30, .7); z-index: 7; }
+.is-locked.island:nth-of-type(n) .lock-state { animation: lockWiggle 4s ease-in-out infinite; }
+.empty { position: absolute; inset: auto 0 6%; text-align: center; color: var(--muted); font-size: 14px; }
+
+.rock { position: absolute; z-index: 1; background: linear-gradient(135deg, #8a63ff, #3d2790 55%, #24185c); clip-path: polygon(50% 0, 100% 35%, 85% 100%, 30% 90%, 0 40%); box-shadow: 0 0 30px rgba(130, 90, 255, .5); animation: float 7s ease-in-out infinite; filter: drop-shadow(0 0 12px rgba(140, 100, 255, .6)); }
+.rock.r1 { width: 62px; height: 66px; left: 5%; bottom: 3%; } .rock.r2 { width: 28px; height: 30px; left: 3%; bottom: 36%; animation-delay: -2s; background: linear-gradient(135deg, #5b7bff, #2b3a9a); }
+.rock.r3 { width: 34px; height: 36px; right: 3%; bottom: 36%; animation-delay: -4s; background: linear-gradient(135deg, #5b7bff, #2b3a9a); } .rock.r4 { width: 50px; height: 52px; right: 4%; bottom: 4%; animation-delay: -3s; background: linear-gradient(135deg, #4aa0ff, #1b3fa8); }
+.rock.r5 { width: 20px; height: 22px; left: 36%; top: 5%; animation-delay: -1s; }
+.sparkle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #bfe8ff; box-shadow: 0 0 8px 2px rgba(120, 200, 255, .8); animation: twinkle calc(2.5s + var(--i) * .27s) ease-in-out infinite calc(var(--i) * -.4s); pointer-events: none; }
+@media (max-width: 700px) { .chip { padding: 4px 10px 4px 5px; gap: 6px; } .chip-icon { width: 26px; height: 26px; } .chip-icon svg { width: 14px; height: 14px; } .chip-text strong { font-size: 10px; } .chip-text small { font-size: 9px; } .current-pill { font-size: 10px; padding: 3px 14px; top: calc(62% + 34px); } .tabs button { padding: 7px 10px; font-size: 12px; } .map-head { flex-wrap: wrap; } .tabs { width: 100%; } .state { transform: scale(.7); } }
