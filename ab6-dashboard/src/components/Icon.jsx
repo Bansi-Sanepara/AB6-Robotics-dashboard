@@ -45,14 +45,93 @@ export default function Icon({ n, size = 20, sw = 1.8, fill, ...rest }) {
 
 export function LogoMark({ size = 40, draw = false }) {
   return (
-    <svg className={'logo-mark' + (draw ? ' draw' : '')} viewBox="0 0 64 64" width={size} height={size} aria-hidden="true">
+    <svg
+      className={'logo-mark ab6-logo' + (draw ? ' draw' : '')}
+      viewBox="0 0 64 64"
+      width={size}
+      height={size}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="AB6 Robotics"
+    >
       <defs>
-        <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#35e0ff" /><stop offset="1" stopColor="#2f6bff" /></linearGradient>
+        <linearGradient
+          id="ab6LogoGradient"
+          x1="8"
+          y1="5"
+          x2="55"
+          y2="59"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stopColor="#70E7FF" />
+          <stop offset=".52" stopColor="#159CFF" />
+          <stop offset="1" stopColor="#5368FF" />
+        </linearGradient>
+
+        <radialGradient id="ab6LogoCore" cx="0" cy="0" r="1"
+          gradientTransform="translate(32 31) rotate(90) scale(15)"
+          gradientUnits="userSpaceOnUse">
+          <stop stopColor="#8DF3FF" />
+          <stop offset="1" stopColor="#087EFF" />
+        </radialGradient>
+
+        <filter id="ab6LogoGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
-      <path className="lm-hex" d="M32 3l23 13v32L32 61 9 48V16z" fill="rgba(47,123,255,.12)" stroke="url(#lg1)" strokeWidth="3" strokeLinejoin="round" />
-      <path className="lm-diamond" d="M32 14l11 18-11 18-11-18z" fill="url(#lg1)" />
-      <path className="lm-core" d="M32 24l5 8-5 8-5-8z" fill="#06122e" />
-      <circle className="lm-dot" cx="32" cy="32" r="2.6" fill="#7df0ff" />
+
+      {/* Four directional robotic modules */}
+      <g stroke="url(#ab6LogoGradient)" strokeWidth="2.5"
+        strokeLinecap="round" strokeLinejoin="round">
+        <path d="M26 7L32 3L38 7L35 15H29L26 7Z" fill="url(#ab6LogoGradient)" />
+        <path d="M57 26L61 32L57 38L49 35V29L57 26Z" fill="url(#ab6LogoGradient)" />
+        <path d="M26 57L32 61L38 57L35 49H29L26 57Z" fill="url(#ab6LogoGradient)" />
+        <path d="M7 26L3 32L7 38L15 35V29L7 26Z" fill="url(#ab6LogoGradient)" />
+      </g>
+
+      {/* Open circuit frame */}
+      <path
+        d="M21 12L32 8L43 12L52 21L56 32L52 43L43 52L32 56L21 52L12 43L8 32L12 21Z"
+        stroke="url(#ab6LogoGradient)"
+        strokeWidth="1.8"
+        opacity=".65"
+      />
+
+      {/* Central abstract A / robotic core */}
+      <path
+        d="M32 15L47 43H39L32 30L25 43H17L32 15Z"
+        fill="url(#ab6LogoGradient)"
+        filter="url(#ab6LogoGlow)"
+      />
+
+      {/* Negative-space crossbar */}
+      <path
+        d="M25 36H39L43 43H21L25 36Z"
+        fill="#07172C"
+      />
+
+      {/* Central intelligence node */}
+      <circle cx="32" cy="32" r="5.2" fill="#07172C" />
+      <circle
+        cx="32"
+        cy="32"
+        r="3.1"
+        fill="url(#ab6LogoCore)"
+        filter="url(#ab6LogoGlow)"
+      />
+
+      {/* Connection nodes */}
+      <g fill="#A4F2FF">
+        <circle cx="19" cy="19" r="1.5" />
+        <circle cx="45" cy="19" r="1.5" />
+        <circle cx="19" cy="45" r="1.5" />
+        <circle cx="45" cy="45" r="1.5" />
+      </g>
     </svg>
   );
 }

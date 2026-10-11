@@ -98,3 +98,320 @@
 :root[data-theme='light'] .cursor-dot i { background: #0c1a3d; }
 :root[data-theme='light'] .cursor-trail { background: #5aa0ff; box-shadow: 0 0 8px #2f7bff; }
 :root[data-theme='light'] .cursor-burst { border-color: #2f7bff; box-shadow: 0 0 12px #2f7bff; }
+
+/* Welcome screen — AB6 Robotics */
+
+.welcome-center {
+  width: min(760px, 92vw);
+  text-align: center;
+  z-index: 2;
+}
+
+.welcome-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  color: #79dfff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  animation: welcome-fade-up 700ms ease both;
+}
+
+.welcome-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #39e7c4;
+  box-shadow: 0 0 12px #39e7c4;
+  animation: welcome-blink 1.5s ease-in-out infinite;
+}
+
+.welcome-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  color: #eaf7ff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 700;
+  line-height: 1.13;
+  letter-spacing: -2px;
+}
+
+.welcome-line {
+  display: block;
+  opacity: 0;
+  animation: welcome-fade-up 750ms ease forwards;
+}
+
+.welcome-line-one {
+  font-size: 0.46em;
+  font-weight: 500;
+  letter-spacing: 7px;
+  color: #b4cde2;
+  animation-delay: 150ms;
+}
+
+.welcome-line-two {
+  font-size: 0.8em;
+  letter-spacing: 1px;
+  animation-delay: 350ms;
+}
+
+.welcome-highlight {
+  padding-bottom: 7px;
+  color: #54d9ff;
+  text-shadow:
+    0 0 18px rgba(35, 177, 255, 0.4),
+    0 0 55px rgba(35, 177, 255, 0.18);
+  animation-delay: 550ms;
+}
+
+.welcome-period {
+  color: #7d85ff;
+}
+
+.welcome-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin: 22px auto;
+  animation: welcome-fade-up 700ms 700ms ease both;
+}
+
+.welcome-divider span {
+  display: block;
+  height: 3px;
+  width: 25px;
+  border-radius: 10px;
+  background: #168fff;
+  box-shadow: 0 0 12px rgba(22, 143, 255, 0.7);
+}
+
+.welcome-divider span:nth-child(2) {
+  width: 55px;
+  background: #52e5ff;
+}
+
+.welcome-divider span:nth-child(3) {
+  background: #727cff;
+}
+
+.welcome-description {
+  margin: 0 0 28px;
+  color: #91acc5;
+  font-size: 15px;
+  line-height: 1.9;
+  letter-spacing: 0.4px;
+  animation: welcome-fade-up 700ms 850ms ease both;
+}
+
+.welcome-description strong {
+  color: #e2f5ff;
+  font-weight: 600;
+}
+
+.welcome-platform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  color: #668ba8;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  animation: welcome-fade-up 700ms 1s ease both;
+}
+
+.welcome-platform-line {
+  width: 35px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #207fb5);
+}
+
+.welcome-platform-line:last-child {
+  transform: rotate(180deg);
+}
+
+.welcome-center .splash-bar {
+  width: min(360px, 80%);
+  margin: 0 auto 12px;
+}
+
+.welcome-center .splash-meta {
+  width: min(360px, 80%);
+  margin: 0 auto;
+  font-size: 11px;
+}
+
+.welcome-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(42, 168, 255, 0.13);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-a {
+  width: min(720px, 90vw);
+  height: min(720px, 90vw);
+  animation: welcome-orbit-spin 40s linear infinite;
+}
+
+.orbit-b {
+  width: min(900px, 115vw);
+  height: min(900px, 115vw);
+  border-style: dashed;
+  border-color: rgba(42, 168, 255, 0.08);
+  animation: welcome-orbit-spin 65s linear infinite reverse;
+}
+
+.welcome-cross {
+  position: absolute;
+  color: #44cfff;
+  font-size: 22px;
+  opacity: 0.55;
+  animation: welcome-blink 3s ease-in-out infinite;
+}
+
+.cross-a {
+  top: 24%;
+  left: 18%;
+}
+
+.cross-b {
+  right: 19%;
+  bottom: 24%;
+  animation-delay: 1s;
+}
+
+.welcome-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #58dfff;
+  box-shadow: 0 0 14px 3px rgba(45, 173, 255, 0.35);
+  animation: welcome-float 4s ease-in-out infinite;
+}
+
+.particle-a {
+  top: 29%;
+  left: 27%;
+}
+
+.particle-b {
+  top: 35%;
+  right: 24%;
+  animation-delay: 1s;
+}
+
+.particle-c {
+  bottom: 24%;
+  left: 31%;
+  animation-delay: 2s;
+}
+
+.welcome-bottom-label {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #42647e;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  white-space: nowrap;
+}
+
+@keyframes welcome-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes welcome-blink {
+  0%, 100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes welcome-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes welcome-orbit-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .welcome-line-one {
+    letter-spacing: 3px;
+  }
+
+  .welcome-title {
+    letter-spacing: -1px;
+  }
+
+  .welcome-eyebrow {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+  }
+
+  .welcome-platform {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    gap: 7px;
+  }
+
+  .welcome-platform-line {
+    width: 18px;
+  }
+
+  .welcome-bottom-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-line,
+  .welcome-eyebrow,
+  .welcome-divider,
+  .welcome-description,
+  .welcome-platform,
+  .welcome-orbit,
+  .welcome-cross,
+  .welcome-particle,
+  .welcome-live-dot {
+    animation: none !important;
+    opacity: 1;
+  }
+}

@@ -228,7 +228,7 @@ function App() {
       <div className={'app' + (ready ? ' ready' : '')}>
         <header className="topbar">
           <div className="brand reveal" style={{ '--d': '.05s' }}>
-            <LogoMark size={42} /><b>AB6 <span>Robotics</span></b>
+            <b>AB6 <span>Robotics</span></b>
           </div>
           <label className="search reveal" style={{ '--d': '.12s' }}>
             <Icon n="search" size={18} />
