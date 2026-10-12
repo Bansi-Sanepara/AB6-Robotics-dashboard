@@ -12,6 +12,7 @@ import Splash from './components/Splash.jsx';
 import Cursor from './components/Cursor.jsx';
 import { RobotArm, Mascot } from './components/Art.jsx';
 import { confetti } from './components/fx.js';
+import { initDepth } from './components/depth.js';
 
 const A = '/assets/';
 // status: done | current | locked   (x / y / w are % positions on the map stage)
@@ -82,14 +83,28 @@ function ThemeToggle({ theme, onToggle }) {
 
 function Island({ c, i, onClick, dim }) {
   const tilt = useRef(null);
+  const frame = useRef(0);
+  useEffect(() => () => cancelAnimationFrame(frame.current), []);
+  /* rAF-throttled: raw mousemove can fire several times per frame; only the latest position matters */
   const move = e => {
-    const el = tilt.current; if (!el) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
-    el.style.setProperty('--rx', (-py * 10).toFixed(2) + 'deg');
-    el.style.setProperty('--ry', (px * 12).toFixed(2) + 'deg');
+    const root = e.currentTarget, cx = e.clientX, cy = e.clientY;
+    cancelAnimationFrame(frame.current);
+    frame.current = requestAnimationFrame(() => {
+      const el = tilt.current; if (!el) return;
+      const r = root.getBoundingClientRect();
+      const px = (cx - r.left) / r.width - .5, py = (cy - r.top) / r.height - .5;
+      el.style.setProperty('--rx', (-py * 15).toFixed(2) + 'deg');
+      el.style.setProperty('--ry', (px * 18).toFixed(2) + 'deg');
+      root.style.setProperty('--ipx', (px * 2).toFixed(3));   // -1..1, drives chip / glow / shadow parallax
+      root.style.setProperty('--ipy', (py * 2).toFixed(3));
+    });
   };
-  const leave = () => { const el = tilt.current; if (el) { el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); } };
+  const leave = e => {
+    cancelAnimationFrame(frame.current);                      // a queued move must not overwrite the reset
+    const el = tilt.current; if (!el) return;
+    el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg');
+    e.currentTarget.style.setProperty('--ipx', '0'); e.currentTarget.style.setProperty('--ipy', '0');
+  };
   return (
     <div className={`island is-${c.status}${dim ? ' dim' : ''}`} style={{ '--x': c.x + '%', '--y': c.y + '%', '--w': c.w + '%', '--i': i, '--accent': c.color }}
       onMouseMove={move} onMouseLeave={leave}>
@@ -169,16 +184,8 @@ function App() {
     const k = e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); searchRef.current?.focus(); } };
     addEventListener('keydown', k); return () => removeEventListener('keydown', k);
   }, []);
-  /* cursor spotlight on glass cards */
-  useEffect(() => {
-    const m = e => {
-      const el = e.target.closest && e.target.closest('.glass');
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      el.style.setProperty('--mx', e.clientX - r.left + 'px'); el.style.setProperty('--my', e.clientY - r.top + 'px');
-    };
-    addEventListener('mousemove', m); return () => removeEventListener('mousemove', m);
-  }, []);
+  /* 3D depth: card tilt, cursor spotlight, hero + map + page parallax (one rAF pipeline, see components/depth.js) */
+  useEffect(() => initDepth(), []);
   /* button ripple */
   useEffect(() => {
     const d = e => {
@@ -191,14 +198,6 @@ function App() {
     };
     addEventListener('pointerdown', d); return () => removeEventListener('pointerdown', d);
   }, []);
-  /* hero parallax */
-  const heroRef = useRef(null);
-  const heroMove = e => {
-    const el = heroRef.current; if (!el) return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty('--px', ((e.clientX - r.left) / r.width - .5).toFixed(3));
-    el.style.setProperty('--py', ((e.clientY - r.top) / r.height - .5).toFixed(3));
-  };
 
   const q = search.trim().toLowerCase();
   const matches = c => (filter === 'All' || statusOf[c.status] === filter) && c.name.toLowerCase().includes(q);
@@ -279,7 +278,7 @@ function App() {
           </aside>
 
           <main className="main">
-            <section className="hero glass reveal" style={{ '--d': '.2s' }} ref={heroRef} onMouseMove={heroMove}>
+            <section className="hero glass reveal" style={{ '--d': '.2s' }}>
               <div className="hero-fx"><i className="scan" />{Array.from({ length: 14 }, (_, i) => <b key={i} style={{ '--i': i }} />)}</div>
               <div className="hero-copy">
                 <small className="hello">Hello, Bansi! <span className="wave"></span></small>
