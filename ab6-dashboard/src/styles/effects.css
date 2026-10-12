@@ -415,3 +415,111 @@
     opacity: 1;
   }
 }
+
+
+/* =====================================================================
+   Welcome screen — 3D scene, depth & motion
+   ===================================================================== */
+
+/* camera: perspective lives on .w3d, preserve-3d is chained down to the layers */
+.w3d { position: absolute; inset: 0; display: grid; place-items: center; perspective: 1200px; perspective-origin: 50% 42%; z-index: 2; }
+.w3d-enter { position: relative; width: 100%; height: 100%; display: grid; place-items: center; transform-style: preserve-3d;
+  animation: w3dIn 1.5s var(--ease) backwards; transition: transform .85s var(--ease); }
+.w3d-stage { --rx: 0deg; --ry: 0deg; --sx: 1; --sy: 1.1;
+  position: relative; width: 100%; height: 100%; display: grid; place-items: center; transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)); will-change: transform; }
+@keyframes w3dIn { from { opacity: 0; transform: translateZ(-700px) rotateX(24deg) rotateZ(-4deg); } to { opacity: 1; transform: none; } }
+
+/* exit: fly the camera forward through the scene */
+.splash.out .w3d-enter { transform: translateZ(620px) rotateX(-6deg); }
+.splash.out .w3d-content { opacity: 0; transition: opacity .55s ease; }
+
+/* content sits slightly in front of the scene and is 3D-aware so each line has its own depth */
+.w3d-content { transform-style: preserve-3d; transform: translateZ(40px); }
+.w3d-content .welcome-title { transform-style: preserve-3d; }
+.w3d-content .welcome-line { opacity: 1; animation: none; transform: translateZ(var(--z, 0px)); }
+
+/* ---- per-letter 3D flip-in ---- */
+.wl { display: inline-block; opacity: 0; transform-origin: 50% 100%;
+  transform: perspective(520px) rotateX(-95deg) translateY(30px) scale(.9);
+  animation: wlIn .85s var(--ease) calc(.35s + var(--i) * .038s) forwards; }
+@keyframes wlIn { 60% { opacity: 1; } to { opacity: 1; transform: perspective(520px) rotateX(0) translateY(0) scale(1); } }
+
+/* solid extruded 3D lettering — extrusion direction follows the tilt (--sx / --sy) */
+.welcome-highlight .wl { color: #5fdcff;
+  text-shadow:
+    calc(var(--sx) * 1px) calc(var(--sy) * 1px) 0 #1b8fe0,
+    calc(var(--sx) * 2px) calc(var(--sy) * 2px) 0 #1a82d2,
+    calc(var(--sx) * 3px) calc(var(--sy) * 3px) 0 #1773c0,
+    calc(var(--sx) * 4px) calc(var(--sy) * 4px) 0 #1463ac,
+    calc(var(--sx) * 5px) calc(var(--sy) * 5px) 0 #115497,
+    calc(var(--sx) * 6px) calc(var(--sy) * 6px) 0 #0e4581,
+    calc(var(--sx) * 7px) calc(var(--sy) * 7px) 0 #0b366a,
+    calc(var(--sx) * 8px) calc(var(--sy) * 8px) 0 #082a55,
+    calc(var(--sx) * 9px) calc(var(--sy) * 9px) 14px rgba(0, 0, 0, .55),
+    0 0 42px rgba(40, 170, 255, .45); }
+.welcome-highlight .welcome-period { color: #8a92ff; }
+.welcome-line-two .wl { text-shadow: calc(var(--sx) * 1px) calc(var(--sy) * 1px) 0 #36608f, calc(var(--sx) * 2px) calc(var(--sy) * 2px) 0 #274a73, calc(var(--sx) * 3px) calc(var(--sy) * 3px) 6px rgba(0, 0, 0, .5); }
+.welcome-line-one .wl { text-shadow: 0 2px 8px rgba(0, 0, 0, .45); }
+/* glow wave rolling across ROBOTICS after the letters land */
+.welcome-highlight .wl { animation: wlIn .85s var(--ease) calc(.35s + var(--i) * .038s) forwards, wlGlow 3.4s ease-in-out calc(2s + (var(--i) - 22) * .14s) infinite; }
+@keyframes wlGlow { 0%, 100% { filter: brightness(1); } 12% { filter: brightness(1.55) drop-shadow(0 0 10px rgba(110, 230, 255, .9)); } 28% { filter: brightness(1); } }
+
+/* ---- gyroscope: three rings spinning on different axes + glowing core ---- */
+.w3d-gyro { position: absolute; left: 50%; top: 50%; width: min(560px, 78vw); aspect-ratio: 1; margin: calc(min(560px, 78vw) / -2) 0 0 calc(min(560px, 78vw) / -2);
+  transform-style: preserve-3d; transform: translateZ(-170px); pointer-events: none; animation: fade 1.6s .3s both; }
+.g { position: absolute; inset: 0; border-radius: 50%; transform-style: preserve-3d; border: 1.5px solid rgba(80, 200, 255, .38);
+  box-shadow: 0 0 24px rgba(40, 150, 255, .22), inset 0 0 24px rgba(40, 150, 255, .12); }
+.g::after { content: ''; position: absolute; left: 50%; top: -5px; width: 9px; height: 9px; margin-left: -4.5px; border-radius: 50%; background: #9af0ff; box-shadow: 0 0 14px 3px #35e0ff; }
+.g1 { animation: gyroY 14s linear infinite; }
+.g2 { inset: 9%; border-color: rgba(125, 140, 255, .42); border-style: dashed; animation: gyroX 11s linear infinite; }
+.g2::after { background: #c3b2ff; box-shadow: 0 0 14px 3px #7a4dff; }
+.g3 { inset: 20%; border-color: rgba(53, 224, 255, .5); animation: gyroZ 8s linear infinite; }
+.g-core { position: absolute; left: 50%; top: 50%; width: 22%; aspect-ratio: 1; margin: -11% 0 0 -11%; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(160, 245, 255, .55), rgba(40, 140, 255, .22) 45%, transparent 70%); filter: blur(2px); animation: breathe 3s ease-in-out infinite; }
+@keyframes gyroY { from { transform: rotateY(0) rotateZ(14deg); } to { transform: rotateY(360deg) rotateZ(14deg); } }
+@keyframes gyroX { from { transform: rotateX(0) rotateZ(-22deg); } to { transform: rotateX(360deg) rotateZ(-22deg); } }
+@keyframes gyroZ { from { transform: rotateX(68deg) rotateZ(0); } to { transform: rotateX(68deg) rotateZ(360deg); } }
+
+/* ---- perspective grid floor that glides toward the viewer ---- */
+.w3d-floor { position: absolute; left: 50%; bottom: -6%; width: 220%; height: 85%; margin-left: -110%;
+  transform-origin: 50% 100%; transform: translateZ(-60px) rotateX(76deg);
+  background: linear-gradient(rgba(60, 160, 255, .38) 1.5px, transparent 1.5px) 0 0 / 70px 70px, linear-gradient(90deg, rgba(60, 160, 255, .38) 1.5px, transparent 1.5px) 0 0 / 70px 70px;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .55) 35%, transparent 80%); mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .55) 35%, transparent 80%);
+  animation: floorMove 2.6s linear infinite, fade 1.4s .2s both; }
+@keyframes floorMove { to { background-position: 0 70px, 0 0; } }
+
+/* ---- floating glass cubes ---- */
+.w3d-cube { position: absolute; width: var(--s); height: var(--s); transform-style: preserve-3d; transform: translateZ(var(--z));
+  animation: cubeFloat var(--d) ease-in-out var(--dl) infinite, cubeIn 1.2s var(--ease) calc(.6s + var(--dl) * -.05) backwards; pointer-events: none; }
+.cube-spin { position: absolute; inset: 0; transform-style: preserve-3d; animation: cubeSpin var(--d) linear var(--dl) infinite; }
+.cube-spin i { position: absolute; inset: 0; border: 1px solid rgba(110, 215, 255, .6); background: linear-gradient(135deg, rgba(70, 180, 255, .18), rgba(125, 100, 255, .08)); box-shadow: inset 0 0 14px rgba(70, 180, 255, .3), 0 0 10px rgba(53, 224, 255, .18); }
+.cube-spin i:nth-child(1) { transform: translateZ(calc(var(--s) / 2)); }
+.cube-spin i:nth-child(2) { transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
+.cube-spin i:nth-child(3) { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); }
+.cube-spin i:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
+.cube-spin i:nth-child(5) { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); }
+.cube-spin i:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
+@keyframes cubeSpin { from { transform: rotateX(0) rotateY(0) rotateZ(0); } to { transform: rotateX(360deg) rotateY(360deg) rotateZ(180deg); } }
+@keyframes cubeFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -22px; } }
+@keyframes cubeIn { from { opacity: 0; scale: .1; } to { opacity: 1; scale: 1; } }
+
+/* ---- extra polish: eyebrow / bar / skip ---- */
+.splash-bar i { position: relative; }
+.splash-bar i::after { content: ''; position: absolute; right: -6px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: #fff; box-shadow: 0 0 14px 4px #35e0ff; }
+.splash-bar { overflow: visible; }
+.splash-bar em { border-radius: 9px; transform: none; animation: barShine 1.5s linear infinite;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent) -60% 0 / 45% 100% no-repeat; }
+@keyframes barShine { to { background-position: 160% 0; } }
+.splash-skip { transition: .3s var(--ease); } .splash-skip:hover { transform: translateY(-2px); box-shadow: 0 0 18px rgba(53, 224, 255, .35); }
+
+@media (max-width: 700px) {
+  .w3d { perspective: 800px; }
+  .w3d-cube:nth-child(n+5) { display: none; }
+  .welcome-highlight .wl { text-shadow: 1px 1px 0 #1a82d2, 2px 2px 0 #1463ac, 3px 3px 0 #0e4581, 4px 4px 0 #082a55, 0 0 24px rgba(40, 170, 255, .4); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .w3d-enter, .w3d-gyro, .g, .g-core, .w3d-floor, .w3d-cube, .cube-spin, .wl { animation: none !important; }
+  .wl { opacity: 1; transform: none; }
+  .w3d-cube { opacity: 1; }
+}
