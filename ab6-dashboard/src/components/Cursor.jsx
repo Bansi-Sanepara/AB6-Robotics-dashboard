@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
    Only active for fine pointers (mouse/trackpad); touch devices keep the native behaviour. */
 const CLICKABLE = 'a, button:not(:disabled), [role="tab"], [role="switch"], label, .island .chip, summary';
 
-const RING_EASE = 0.3;   // ring catch-up per 60fps frame: higher = tighter (1 = no trailing at all)
+const RING_EASE = 0.12;   // ring catch-up per 60fps frame: higher = tighter (1 = no trailing at all)
 const TRAIL_STEP = 16;   // px the pointer must travel before the next sparkle
 const TRAIL_MAX = 10;    // sparkles alive at once
 
